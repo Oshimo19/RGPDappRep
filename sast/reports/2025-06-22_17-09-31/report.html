@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang='fr'><head><meta charset='UTF-8'>
+<title>Rapport SAST - 2025-06-22_17-09-31</title>
+<style>
+      body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; color: #222; }
+      h1 { color: #005096; }
+      ul { list-style: none; padding: 0; }
+      li { background: #fff; border-left: 5px solid #ccc; padding: 0.75em 1em; margin: 0.5em 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+      li b { text-transform: uppercase; margin-right: 0.5em; }
+      li code { font-family: monospace; color: #555; }
+      li:has(b:contains('CRITICAL')) { border-left-color: #d32f2f; }
+      li:has(b:contains('MAJOR'))    { border-left-color: #f57c00; }
+      li:has(b:contains('MINOR'))    { border-left-color: #fbc02d; }
+      li:has(b:contains('INFO'))     { border-left-color: #1976d2; }
+    </style></head><body>
+<h1>Rapport SAST – 2025-06-22_17-09-31</h1><ul>
+<li><b>MINOR</b> [CODE_SMELL] <code>rgpdapp:db/hashPassword.py</code>: Rename this parameter "storedHash" to match the regular expression ^[_a-z][a-z0-9_]*$.</li>
+<li><b>MINOR</b> [CODE_SMELL] <code>rgpdapp:middlewares/jwt.py</code>: Rename method "generateToken" to match the regular expression ^[a-z_][a-z0-9_]*$.</li>
+<li><b>MAJOR</b> [CODE_SMELL] <code>rgpdapp:routes/auth.py</code>: Remove this commented out code.</li>
+</ul></body></html>

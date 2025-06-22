@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Env
+.venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# SAST - SonarQube
+sast/data/
+sast/scans/
+sast/sonar.mv.db
+
+# DAST - ZAP
+
+# Docker
+*.pid
+Dockerfile
+
+# Ne pas ignorer scripts/tests
+!sast/*.sh
+!sast/sonar-project.properties
+!dast/*.sh
+!tests/**
+!web/load_env_conf.sh

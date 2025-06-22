@@ -1,0 +1,97 @@
+services:
+#  db:
+#    image: postgres:${PGVERSION}
+#    container_name: rgpd_postgres
+#    restart: always
+#    environment:
+#      POSTGRES_DB: ${PGDATABASE}
+#      POSTGRES_USER: ${PGUSER}
+#      POSTGRES_PASSWORD: ${PGPASSWORD}
+#    expose:
+#      - "5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - netSec
+
+#  web:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: rgpdapp-backend:latest
+#    container_name: rgpd_backend
+#    depends_on:
+#      - db
+#    env_file:
+#      - .env
+#    environment:
+#      PGHOST: ${PGHOST}
+#    ports:
+#      - "${FLASK_PORT}:5000"
+#    volumes:
+#      - ./web:/web:ro
+#    working_dir: /
+#    command: >
+#      bash -c "
+#        if [ \"${FLASK_PORT}\" = \"5001\" ]; then
+#          python -m web.app_2_3;
+#        else
+#          python -m web.app;
+#        fi
+#      "
+#    networks:
+#      - netSec
+
+  sonarqube:
+    image: sonarqube:9.9.8-community
+    container_name: rgpd_sonarqube
+    restart: unless-stopped
+    ports:
+      - "${SONARQUBE_PORT}:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+      - SONAR_FORCEAUTHENTICATION=true
+    volumes:
+      - ./sast/data:/opt/sonarqube/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9000/api/system/status | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks:
+      - netSec
+
+  zap:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    container_name: rgpd_zap
+    restart: unless-stopped
+    command: >
+      zap.sh -daemon
+      -host 0.0.0.0
+      -port 8080
+      -config api.disablekey=true
+      -config api.addrs.addr.name=.*
+      -config api.addrs.addr.regex=true
+    ports:
+      - "${ZAP_PORT}:8080"
+    volumes:
+      - ./dast/scans:/zap/scans
+    networks:
+      - netSec
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/JSON/core/view/version/"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  pgdata:
+
+networks:
+  netSec:
+    driver: bridge
