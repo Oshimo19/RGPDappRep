@@ -119,14 +119,11 @@ Ce projet a été réalisé dans le cadre d’un exercice de mise en conformité
 
 ## 🤖 Remerciements
 
-💬 L’assistant IA ChatGPT a été d’une aide précieuse pour :
-  - structurer les middlewares,
-  - améliorer la sécurité,
+L'IA génératique ChatGPT a été d’une aide précieus pour :
+  - structurer les codes,
   - corriger les erreurs,
   - rédiger des scripts de test Bash,
   - générer les structures Markdown.
-
-Merci 🙏
 
 ---
 
