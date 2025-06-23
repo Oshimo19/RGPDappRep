@@ -37,28 +37,52 @@ git clone https://github.com/Oshimo19/RGPDappRep.git
 cd RGPDappRep
 ```
 
-### 2. Créer un environnement virtuel Python (recommandé)
+### 2. Configurer le fichier `.env`
+
+Copier le fichier `.env.template` en `.env` puis l’éditer :
+
+```bash
+cp .env.template .env
+nano .env
+```
+
+Remplir à la main les variables sensibles, à l’exception de :
+
+- `SONAR_TOKEN`
+- `ADMIN_PASSWORD_SONAR`
+
+Ces deux variables sont automatiquement renseignées par le script `run_sast_sca.sh`, inutile de les définir manuellement.
+
+Une fois les services Docker démarrés (voir **étape 7**), tu peux déterminer la valeur correcte de `HOST_IP` grâce à la commande suivante :
+
+```bash
+docker network inspect rgpdapp_netSec --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}'  
+```
+
+Copie ensuite l’IP retournée et colle-la dans la variable `HOST_IP` de ton fichier `.env`.
+
+### 3. Créer un environnement virtuel Python (recommandé)
 
 ```bash
 python3 -m venv .venv         # Crée un environnement virtuel local
 source .venv/bin/activate     # Active l’environnement
 ```
 
-### 3. Installer les dépendances du projet
+### 4. Installer les dépendances du projet
 ```bash
 cd web
 pip install -r requirements.txt
 ```
-Le fichier `requirements.txt` contient des bibliothèques utilisées (Flask, psycopg2, python-dotenv, etc.)
+Le fichier `requirements.txt` contient des bibliothèques utilisées par le projet (Flask, psycopg2, python-dotenv, etc.) 
 
-### 4. Initialiser la base de données PostgreSQL
+### 5. Initialiser la base de données PostgreSQL
 
 ```bash
 cd web
 make resetDB     # Purge + recréation des tables + insertion des utilisateurs de test
 ```
 
-### 5. Lancer l'application web Flask
+### 6. Lancer l'application web Flask
 
 ```bash
 cd web
@@ -66,7 +90,7 @@ bash load_env_conf.sh start web.app      # Pour tester la version cookie (2.2)
 bash load_env_conf.sh start web.app_2_3  # Pour tester la version JWT (2.3)
 ```
 
-### 6. Lancer les services de sécurité (ZAP + SonarQube)
+### 7. Lancer les services de sécurité (ZAP + SonarQube)
 
 ```bash
 docker compose up -d --build             # Build + lancement de tous les services
