@@ -1,6 +1,6 @@
 # RGPDapp
 
-RGPDapp est un projet éducatif ayant pour objectif de mettre en œuvre concrètement les principes du RGPD (Règlement Général sur la Protection des Données) à travers une application web Flask. Ce projet couvre à la fois le backend, la sécurisation des sessions/cookies, l'émission de tokens JWT, et l'intégration d'outils d'analyse de sécurité (SAST & DAST).
+RGPDapp est un projet académique ayant pour objectif de mettre en œuvre concrètement les principes du RGPD (Règlement Général sur la Protection des Données) à travers une application web comme Flask. Ce projet couvre à la fois le backend, la sécurisation des sessions/cookies, l'émission de tokens JWT, et l'intégration d'outils d'analyse de sécurité (SAST & DAST).
 
 ## 🎯 Objectifs pédagogiques
 
@@ -13,7 +13,7 @@ RGPDapp est un projet éducatif ayant pour objectif de mettre en œuvre concrèt
 ## 📁 Arborescence principale
 
 ```
-RGPDapp/
+RGPDappRep/
 ├── dast/                    # Tests DAST (OWASP ZAP)
 ├── sast/                    # Tests SAST (SonarQube)
 ├── web/                     # Code source Flask (backend + middlewares)
@@ -30,23 +30,35 @@ RGPDapp/
 
 ## ⚙️ Initialisation du projet
 
-### 0. Créer un environnement virtuel Python
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/Oshimo19/RGPDappRep.git
+cd RGPDappRep
+```
+
+### 2. Créer un environnement virtuel Python (recommandé)
 
 ```bash
 python3 -m venv .venv         # Crée un environnement virtuel local
 source .venv/bin/activate     # Active l’environnement
-pip install -r requirements.txt  # Installe les dépendances Python
 ```
-Le fichier `requirements.txt` est généré automatiquement à partir des bibliothèques utilisées (Flask, psycopg2, python-dotenv, etc.)
 
-### 1. Initialiser la base de données PostgreSQL
+### 3. Installer les dépendances du projet
+```bash
+cd web
+pip install -r requirements.txt
+```
+Le fichier `requirements.txt` contient des bibliothèques utilisées (Flask, psycopg2, python-dotenv, etc.)
+
+### 4. Initialiser la base de données PostgreSQL
 
 ```bash
 cd web
 make resetDB     # Purge + recréation des tables + insertion des utilisateurs de test
 ```
 
-### 2. Lancer l'application Flask
+### 5. Lancer l'application web Flask
 
 ```bash
 cd web
@@ -54,7 +66,7 @@ bash load_env_conf.sh start web.app      # Pour tester la version cookie (2.2)
 bash load_env_conf.sh start web.app_2_3  # Pour tester la version JWT (2.3)
 ```
 
-### 3. Lancer les services de sécurité (ZAP + SonarQube)
+### 6. Lancer les services de sécurité (ZAP + SonarQube)
 
 ```bash
 docker compose up -d --build             # Build + lancement de tous les services
@@ -80,7 +92,7 @@ Les rapports sont générés automatiquement dans `sast/reports/` et `dast/repor
 
 ## 🧩 Remarques complémentaires
 
-- Le projet respecte les principes SOLID et RGPD, ainsi que les recommandations de sécurité OWASP (voir `docs.md`).
+- Le projet respecte les principes SOLID et RGPD, ainsi que les recommandations de sécurité OWASP (voir `doc.md`).
 - Des en-têtes HTTP ont été ajoutés pour sécuriser les communications (ex: `X-Content-Type-Options`, `X-Frame-Options`, suppression du header `Server`).
 - Un `Makefile` permet de faciliter la gestion de la BDD.
 - Le projet utilise exclusivement PostgreSQL, pas SQLite.
@@ -88,7 +100,8 @@ Les rapports sont générés automatiquement dans `sast/reports/` et `dast/repor
 
 ## 📄 Documentation
 
-Consultez [docs.md](./doc.md) pour :
+Consultez [doc.md](./doc.md) pour :
 - l’évaluation complète des principes RGPD, sécurité, SOLID,
 - les fonctionnalités implémentées ou abandonnées,
 - les axes d’amélioration futurs (Dockerfile, CI/CD, tests bruts, etc).
+
