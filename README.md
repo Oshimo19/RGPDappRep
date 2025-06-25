@@ -94,7 +94,7 @@ Remplir à la main les variables sensibles, à l’exception de :
 - `SONAR_TOKEN`
 - `ADMIN_PASSWORD_SONAR`
 
-Ces deux variables sont automatiquement renseignées par le script `sast_init.sh`, inutile de les définir manuellement.
+Ces deux variables sont automatiquement renseignées par le script `sonar_init.sh`, inutile de les définir manuellement.
 
 Une fois les services Docker démarrés (voir **étape 7**), tu peux déterminer la valeur correcte de `HOST_IP` grâce à la commande suivante :
 
