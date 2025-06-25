@@ -28,6 +28,49 @@ RGPDappRep/
 └── README.md
 ```
 
+## 🧩 Prérequis
+
+- **PostgreSQL** installé localement
+- **Docker** installé et fonctionnel
+- **Python & dépendances** :
+  - `python3`, `python3-venv`, `python3-dev`  
+  - Bibliothèques système : `libpq-dev` (nécessaire pour installer `psycopg2`)
+
+## 🛠️ Configuration de PostgreSQL (utilisateur + base de données)
+
+Avant de lancer l’application, veille à ce que l’utilisateur et la base définis dans le fichier `.env` soient créés dans ton instance PostgreSQL locale.
+
+### 1. **Ouvrir le shell PostgreSQL avec l'utilisateur `postgres`** :
+```bash
+sudo -u postgres psql
+```
+
+### 2. **Créer l’utilisateur défini par `PGUSER` avec le mot de passe `PGPASSWORD`**
+
+```bash
+CREATE USER <PGUSER> WITH PASSWORD '<PGPASSWORD>';
+```
+
+### 3. **Créer la base de données `PGDATABASE` et l’attribuer à l’utilisateur**
+
+```bash
+CREATE DATABASE <PGDATABASE> OWNER <PGUSER>;
+```
+
+### 4. **Accorder tous les droits à l’utilisateur sur la base**
+
+```bash
+GRANT ALL PRIVILEGES ON DATABASE <PGDATABASE> TO <PGUSER>;
+```
+
+### 5. **Quitter le shell de PostgreSQL**
+
+```bash
+\q
+```
+
+Les variables `PGUSER`, `PGPASSWORD` et `PGDATABASE` sont définies dans le fichier `.env`, à créer lors de l'étape suivante.
+
 ## ⚙️ Initialisation du projet
 
 ### 1. Cloner le dépôt
@@ -51,7 +94,7 @@ Remplir à la main les variables sensibles, à l’exception de :
 - `SONAR_TOKEN`
 - `ADMIN_PASSWORD_SONAR`
 
-Ces deux variables sont automatiquement renseignées par le script `run_sast_sca.sh`, inutile de les définir manuellement.
+Ces deux variables sont automatiquement renseignées par le script `sast_init.sh`, inutile de les définir manuellement.
 
 Une fois les services Docker démarrés (voir **étape 7**), tu peux déterminer la valeur correcte de `HOST_IP` grâce à la commande suivante :
 
